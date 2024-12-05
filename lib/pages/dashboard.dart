@@ -7,6 +7,9 @@ import 'package:latlong2/latlong.dart';
 import 'package:rangelandsapp/components/buttons.dart';
 import 'package:rangelandsapp/components/page_switch.dart';
 import 'package:rangelandsapp/constants/basemaps.dart';
+import 'package:rangelandsapp/modals/basemap_modal.dart';
+import 'package:rangelandsapp/modals/indicators_modal.dart';
+import 'package:rangelandsapp/modals/location_modal.dart';
 
 class Dashboard extends StatefulWidget {
   const Dashboard({super.key});
@@ -16,7 +19,88 @@ class Dashboard extends StatefulWidget {
 }
 
 class _Dashboard extends State<Dashboard> {
-  final TileLayer _baseMap = satellite;
+  final MapController _mapController = MapController();
+  String _mapType = "satellite";
+  TileLayer _baseMap = satellite;
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _mapController.dispose();
+  }
+
+  void _showBaseMapModal() {
+    showModalBottomSheet(
+      context: context,
+      builder: (context) {
+        return BaseMapModal(
+            changeLayersFunction: _changeMapType, activeMapType: _mapType);
+      },
+    );
+  }
+
+  // function to zoom in in the map
+  void zoomIn() {
+    double zoomLevel = _mapController.camera.zoom + 1;
+    LatLng position = _mapController.camera.center;
+    _mapController.move(position, zoomLevel);
+  }
+
+  // function to zoom out
+  void zoomOut() {
+    double zoomLevel = _mapController.camera.zoom - 1;
+    LatLng position = _mapController.camera.center;
+    _mapController.move(position, zoomLevel);
+  }
+
+  //this changes the map type/basemap
+  void _changeMapType(String type) {
+    setState(() {
+      if (type == 'street') {
+        _mapType = 'street';
+        _baseMap = traffic;
+      } else if (type == 'satellite') {
+        _mapType = "satellite";
+        _baseMap = satellite;
+      } else if (type == 'dark') {
+        _mapType = 'dark';
+        _baseMap = dark;
+      } else if (type == 'light') {
+        _mapType = 'light';
+        _baseMap = light;
+      }
+    });
+  }
+
+  _showChooseLocationModal() async {
+    final data = await showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      constraints: BoxConstraints(
+        maxHeight: MediaQuery.sizeOf(context).height * (3 / 5),
+      ),
+      builder: (context) {
+        return const LocationModal();
+      },
+    );
+
+    if (data != null) {}
+  }
+
+  _showIndicatorsModal() async {
+    final data = await showModalBottomSheet(
+      isScrollControlled: true,
+      context: context,
+      builder: (context) {
+        return const IndicatorsModal();
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -30,6 +114,7 @@ class _Dashboard extends State<Dashboard> {
           children: [
             //  ==================================== Flutter Map ==============================================
             FlutterMap(
+              mapController: _mapController,
               options: const MapOptions(
                 initialCenter: LatLng(0.8119865892372503, 40.1057605465886127),
                 initialZoom: 7,
@@ -111,12 +196,12 @@ class _Dashboard extends State<Dashboard> {
                   children: [
                     MapButton(
                       icon: SvgPicture.asset("assets/icons/layers.svg"),
-                      onPressed: () {},
+                      onPressed: _showIndicatorsModal,
                     ),
                     const SizedBox(height: 16),
                     MapButton(
                       icon: Image.asset("assets/icons/satellite.jpg"),
-                      onPressed: () {},
+                      onPressed: _showBaseMapModal,
                     )
                   ],
                 ),
@@ -132,12 +217,12 @@ class _Dashboard extends State<Dashboard> {
                   children: [
                     MapButton(
                       icon: SvgPicture.asset("assets/icons/zoom_in.svg"),
-                      onPressed: () {},
+                      onPressed: zoomIn,
                     ),
                     const SizedBox(height: 16),
                     MapButton(
                       icon: SvgPicture.asset("assets/icons/zoom_out.svg"),
-                      onPressed: () {},
+                      onPressed: zoomOut,
                     ),
                   ],
                 ),
@@ -161,7 +246,7 @@ class _Dashboard extends State<Dashboard> {
                       const SizedBox(height: 16),
                       MapButton(
                         icon: SvgPicture.asset("assets/icons/location_pin.svg"),
-                        onPressed: () {},
+                        onPressed: _showChooseLocationModal,
                       ),
                     ],
                   ),
