@@ -8,7 +8,7 @@ void main() {
 
 final kColorScheme = ColorScheme.fromSeed(
     seedColor: const Color.fromRGBO(207, 16, 45, 1),
-    primary: const Color.fromRGBO(207, 16, 45, 1),
+    primary: const Color.fromRGBO(166,50,12,1),
     secondary: const Color.fromRGBO(0, 175, 170, 1));
 
 class MyApp extends StatelessWidget {
