@@ -18,7 +18,7 @@ class PrimaryButton extends StatelessWidget {
       style: ElevatedButton.styleFrom(
         backgroundColor: backgroundColor,
         foregroundColor: foregroundColor,
-        disabledBackgroundColor: const Color.fromRGBO(230, 230, 230, 1),
+        disabledBackgroundColor: const Color.fromRGBO(151, 156, 168, 1),
         disabledForegroundColor: Colors.white,
         minimumSize: const Size(double.infinity, 42),
         shape: ContinuousRectangleBorder(
@@ -83,7 +83,6 @@ class MapButton extends StatelessWidget {
         ),
       );
 }
-
 
 class BasemapButton extends StatefulWidget {
   const BasemapButton({

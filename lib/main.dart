@@ -7,11 +7,14 @@ void main() {
 }
 
 final kColorScheme = ColorScheme.fromSeed(
-    seedColor: const Color.fromRGBO(207, 16, 45, 1),
-    primary: const Color.fromRGBO(166, 50, 12, 1),
-    secondary: const Color.fromRGBO(16, 148, 72, 1),
-    surface: Colors.white,
-    onSurface: const Color.fromRGBO(46, 46, 46, 1),);
+  seedColor: const Color.fromRGBO(207, 16, 45, 1),
+  primary: const Color.fromRGBO(166, 50, 12, 1),
+  secondary: const Color.fromRGBO(16, 148, 72, 1),
+  surface: Colors.white,
+  onSurface: const Color.fromRGBO(46, 46, 46, 1),
+  error: const Color.fromRGBO(233, 60, 60, 1),
+  onError: Colors.white,
+);
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});

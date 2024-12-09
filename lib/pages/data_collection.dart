@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_tabler_icons/flutter_tabler_icons.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:rangelandsapp/components/empty_state.dart';
 import 'package:rangelandsapp/components/page_switch.dart';
@@ -24,7 +25,7 @@ class _HomePageState extends State<HomePage> {
         title: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(Icons.pie_chart,
+            Icon(TablerIcons.chart_pie_filled,
                 color: Theme.of(context).colorScheme.primary, size: 30),
             const SizedBox(width: 8),
             Text(
