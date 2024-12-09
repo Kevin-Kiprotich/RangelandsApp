@@ -4,6 +4,7 @@ import 'package:rangelandsapp/components/empty_state.dart';
 import 'package:rangelandsapp/components/page_switch.dart';
 import 'package:rangelandsapp/components/quick_action.dart';
 import 'package:rangelandsapp/pages/dashboard.dart';
+import 'package:rangelandsapp/pages/data_collection_map.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -61,7 +62,7 @@ class _HomePageState extends State<HomePage> {
                   .titleMedium!
                   .apply(color: Theme.of(context).colorScheme.secondary),
             ),
-            const SizedBox(height: 10),
+            const SizedBox(height: 16),
             Container(
               width: double.infinity,
               height: 140,
@@ -79,40 +80,45 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ],
               ),
-              child: const Row(
+              child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   QuickAction(
-                    icon: Icon(
+                    icon: const Icon(
                       Icons.format_list_bulleted_add,
                       size: 30,
                       color: Color(0xFF007EFF),
                     ),
                     label: 'Collect Data',
+                    onPressed: (){
+                      Navigator.of(context).push(MaterialPageRoute(builder: (context)=> const DataCollectionMap()));
+                    },
                   ),
-                  SizedBox(width: 16),
+                  const SizedBox(width: 16),
                   QuickAction(
-                    icon: Icon(
+                    icon: const Icon(
                       FontAwesomeIcons.penToSquare,
                       size: 30,
                       color: Color.fromRGBO(140, 140, 140, 1),
                     ),
                     label: 'View Drafts',
+                    onPressed: (){},
                   ),
-                  SizedBox(width: 16),
+                  const SizedBox(width: 16),
                   QuickAction(
-                    icon: Icon(
+                    icon: const Icon(
                       Icons.list_alt,
                       size: 30,
                       color: Color(0xFF1AB759),
                     ),
                     label: 'Completed Forms',
+                    onPressed: (){},
                   )
                 ],
               ),
             ),
-            const SizedBox(height: 40),
+            const SizedBox(height: 32),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [

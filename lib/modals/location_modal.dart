@@ -159,13 +159,16 @@ class _LocationModalState extends State<LocationModal> {
                 
               ),
               const SizedBox(height: 16),
-              PrimaryButton(
-                onPressed: () {
-                  if (_formkey.currentState!.validate()) {
-                    // fetchAOI();
-                  }
-                },
-                buttonText: 'Submit',
+              SizedBox(
+                height:48,
+                child: PrimaryButton(
+                  onPressed: () {
+                    if (_formkey.currentState!.validate()) {
+                      // fetchAOI();
+                    }
+                  },
+                  buttonText: 'Submit',
+                ),
               ),
               
             ],

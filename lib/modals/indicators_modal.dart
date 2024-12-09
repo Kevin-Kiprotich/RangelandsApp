@@ -111,7 +111,7 @@ class _IndicatorsModalState extends State<IndicatorsModal> {
                                   if (value == null) {
                                     return "Please select a county";
                                   }
-            
+
                                   return null;
                                 },
                               ),
@@ -141,7 +141,7 @@ class _IndicatorsModalState extends State<IndicatorsModal> {
                                 //   if (value == null) {
                                 //     return "Please select a dataset";
                                 //   }
-            
+
                                 //   return null;
                                 // },
                               ),
@@ -171,7 +171,7 @@ class _IndicatorsModalState extends State<IndicatorsModal> {
                                 //   if (value == null) {
                                 //     return "Please select a county";
                                 //   }
-            
+
                                 //   return null;
                                 // },
                               ),
@@ -201,13 +201,19 @@ class _IndicatorsModalState extends State<IndicatorsModal> {
                                 //   if (value == null) {
                                 //     return "Please select a county";
                                 //   }
-            
+
                                 //   return null;
                                 // },
                               ),
                             ),
                             const SizedBox(height: 16),
-                            PrimaryButton(onPressed: (){}, buttonText: "Request"),
+                            SizedBox(
+                              height: 48,
+                              child: PrimaryButton(
+                                onPressed: () {},
+                                buttonText: "Request",
+                              ),
+                            ),
                           ],
                         ),
                       ),

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter_tabler_icons/flutter_tabler_icons.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:rangelandsapp/components/buttons.dart';
 import 'package:rangelandsapp/components/page_switch.dart';
@@ -100,6 +99,10 @@ class _Dashboard extends State<Dashboard> {
         return const IndicatorsModal();
       },
     );
+
+    if (data != null){
+      
+    }
   }
 
   @override
