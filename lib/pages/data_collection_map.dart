@@ -5,6 +5,7 @@ import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_map_location_marker/flutter_map_location_marker.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter_tabler_icons/flutter_tabler_icons.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:rangelandsapp/components/buttons.dart';
@@ -26,23 +27,24 @@ class _DataCollectionMapState extends State<DataCollectionMap> {
       distanceFilter: 1, accuracy: LocationAccuracy.high);
   final MapController _mapController = MapController();
   StreamSubscription<Position>? _positionStream;
-  LatLng _currentCenter = const LatLng(0, 0);
   bool _showMyLocationMarker = false;
   LatLng _center = const LatLng(0, 0);
   String _mapType = "satellite";
   TileLayer _baseMap = satellite;
-  Position? _currentPosition;
-  double _accuracy = 3.8;
-  
+  double _accuracy = 0;
 
   @override
   void initState() {
     super.initState();
+    if (_showMyLocationMarker) {
+      startLocation();
+    }
   }
 
   @override
   void dispose() {
     super.dispose();
+    // _mapController.dispose();
   }
 
   // function to zoom in in the map
@@ -89,21 +91,19 @@ class _DataCollectionMapState extends State<DataCollectionMap> {
   }
 
   //function to get position streams
-  startLocation() {
-    getLocationpermission();
-    _positionStream =
-        Geolocator.getPositionStream(locationSettings: lSettings)
-            .handleError((error) {}).listen((Position position) {
+  startLocation() async {
+    final permission = await getLocationpermission();
+    _positionStream = Geolocator.getPositionStream(locationSettings: lSettings)
+        .handleError((error) {})
+        .listen((Position position) {
       _locStream.sink.add(position);
       if (mounted) {
         setState(() {
           _accuracy = position.accuracy;
           _center = LatLng(position.latitude, position.longitude);
-          double zoomLevel=_mapController.camera.zoom;
-          _mapController.move(_center,zoomLevel);
-          // print(_currentPosition);
-          // print(_center);
-          
+          double zoomLevel = _mapController.camera.zoom;
+          _mapController.move(_center, 17);
+          _showMyLocationMarker = true;
         });
       }
     });
@@ -115,7 +115,6 @@ class _DataCollectionMapState extends State<DataCollectionMap> {
       _positionStream!.cancel();
     });
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -241,16 +240,20 @@ class _DataCollectionMapState extends State<DataCollectionMap> {
                     ),
                     const SizedBox(height: 16),
                     MapButton(
-                      icon: SvgPicture.asset("assets/icons/my_location.svg"),
+                      icon: Icon(
+                        _showMyLocationMarker
+                            ? FontAwesomeIcons.locationCrosshairs
+                            : TablerIcons.current_location,
+                        weight: 0.5,
+                      ),
                       onPressed: () {
                         setState(() {
-                          if (_showMyLocationMarker){
-                          endLocation();
-                          _showMyLocationMarker = false;
-                        }else{
-                          startLocation();
-                          _showMyLocationMarker = true;
-                        }
+                          if (_showMyLocationMarker) {
+                            endLocation();
+                            _showMyLocationMarker = false;
+                          } else {
+                            startLocation();
+                          }
                         });
                       },
                     ),
@@ -296,14 +299,14 @@ class _DataCollectionMapState extends State<DataCollectionMap> {
                           height: 36,
                           width: 36,
                           decoration: BoxDecoration(
-                            color: _accuracy <= 5
+                            color: _accuracy <= 5 && _accuracy > 0
                                 ? Theme.of(context).colorScheme.secondary
                                 : Theme.of(context).colorScheme.error,
                             borderRadius: BorderRadius.circular(18),
                           ),
                           child: Center(
                             child: Text(
-                              _accuracy.toString(),
+                              _accuracy.toStringAsFixed(2),
                               style: Theme.of(context)
                                   .textTheme
                                   .labelLarge
@@ -322,8 +325,10 @@ class _DataCollectionMapState extends State<DataCollectionMap> {
                     SizedBox(
                       width: 160,
                       child: PrimaryButton(
-                        backgroundColor: Theme.of(context).colorScheme.secondary,
-                        onPressed: _accuracy <= 5 ? () {} : null,
+                        backgroundColor:
+                            Theme.of(context).colorScheme.secondary,
+                        onPressed:
+                            _accuracy <= 5 && _accuracy > 0 ? () {} : null,
                         buttonText: "Record Data",
                       ),
                     ),

@@ -83,7 +83,7 @@ class _HomePageState extends State<HomePage> {
               ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   QuickAction(
                     icon: const Icon(
